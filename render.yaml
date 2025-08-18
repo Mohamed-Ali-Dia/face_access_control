@@ -2,6 +2,11 @@ services:
   - type: web
     name: face-access-control
     env: python
+    region: oregon  # ou autre région disponible
+    branch: main
+    plan: free  # gratuit
     buildCommand: pip install -r requirements.txt
-    startCommand: streamlit run app.py --server.port $PORT --server.headless true
-    plan: free
+    startCommand: streamlit run app.py --server.port $PORT
+    envVars:
+      - key: PORT
+        value: "10000"  # Render utilisera cette variable pour exposer le port
