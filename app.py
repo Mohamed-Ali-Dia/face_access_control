@@ -4,6 +4,8 @@ from models import init_db, authenticate, create_session, get_session, delete_se
 from views.add_user_view import add_user_tab
 from views.recognition_view import recognition_tab
 from views.account_management_view import account_management_tab
+from PIL import Image
+import base64
 
 # --------------------
 # Config page
@@ -73,15 +75,30 @@ if not st.session_state.authenticated:
         st.session_state.username = username
         st.session_state.role = role
 
+# Fonction pour encoder l'image en base64
+def get_base64_of_bin_file(bin_file):
+    with open(bin_file, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+# Chemin vers ton logo local
+logo_base64 = get_base64_of_bin_file("logo_dit.png")
+
 # --------------------
 # Page de connexion
 # --------------------
 if not st.session_state.authenticated:
-    st.markdown("<h1>🔑 Connexion au système</h1>", unsafe_allow_html=True)
+    st.markdown(f"""
+    <div style="display: flex; justify-content: center; align-items: center; padding-bottom: 30px;">
+        <img src="data:image/png;base64,{logo_base64}" 
+            alt="Logo DIT"
+            style="width: 100%; height: auto; max-width: 200px;">
+    </div>
+    """, unsafe_allow_html=True)
+
     st.markdown("""
         <div style="text-align:center; margin-bottom:1.5vw;">
             <p style="background-color:#d1ecf1; color:#0c5460; padding:10px; border-radius:5px; font-size:1.2vw;">
-            💡 Veuillez sélectionner votre type d'utilisateur puis entrer vos identifiants pour accéder au système
+            🔑 Veuillez sélectionner votre type d'utilisateur puis entrer vos identifiants pour accéder au système
             </p>
         </div>
     """, unsafe_allow_html=True)
@@ -109,20 +126,13 @@ if not st.session_state.authenticated:
 else:
     # --- Sidebar utilisateur ---
     with st.sidebar:
-        st.markdown("""
-            <h2 style="
-                text-align:center; 
-                background: linear-gradient(90deg, #0f172a, #1e293b);
-                color:white; 
-                font-size:1.2vw; 
-                padding:15px; 
-                border-radius:10px; 
-                box-shadow: 0 4px 12px rgba(0,0,0,0.2); 
-                margin-bottom:2vw;
-                ">
-                <span style="display:block; font-size:2vw; color:#ffd700; text-shadow: 1px 1px 2px black;">🔒</span>
-                Contrôle d'accès via reconnaissance faciale
-            </h2>
+        # Affichage logo + rôle
+        st.markdown(f"""
+            <div style="width: 100%; display: flex; justify-content: center; align-items: center; padding-bottom: 50px;">
+                <img src="data:image/png;base64,{logo_base64}" 
+                    alt="Logo DIT"
+                    style="width: 100%; height: auto; max-width: 600px;">
+            </div>
         """, unsafe_allow_html=True)
 
         st.markdown(f"<span style='font-size:1em'>👤 {st.session_state.role}</span>", unsafe_allow_html=True)

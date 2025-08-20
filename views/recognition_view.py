@@ -122,7 +122,6 @@ def recognition_tab():
         },
         async_transform=True
     )
-
     st.markdown('</div>', unsafe_allow_html=True)
 
     if ctx.state.playing is None or not ctx.state.playing:
