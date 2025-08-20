@@ -87,57 +87,43 @@ def recognition_tab():
 
             return cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         
-    # --- Container fixe pour la vidéo ---
-    with st.container():
-        # Message juste au-dessus de la vidéo
-        st.markdown("""
-            <div style="text-align:center; margin-bottom:0.5vw;">
-                <p style="font-size:1.2vw; background-color:#d1ecf1; color:#0c5460; padding:6px; border-radius:5px">
-                💡 Placez-vous face à la caméra pour que le système détecte et reconnaisse votre visage.
-                </p>
-            </div>
-        """, unsafe_allow_html=True)
 
-        # CSS pour réduire les marges internes
-        st.markdown("""
-        <style>
-        /* Réduire espace au-dessus et en dessous du composant webrtc_streamer */
-        .streamlit-expanderHeader, .stButton, .stMarkdown, .stContainer {
-            margin-top: 0px !important;
-            margin-bottom: 0px !important;
-            padding-top: 0px !important;
-            padding-bottom: 0px !important;
-        }
+    # CSS pour réduire les marges internes
+    st.markdown("""
+    <style>
+    /* Container vidéo fixe */
+    .video-container {
+        width: 400px;
+        height: 200px;
+        margin: 0;
+        padding : 0, 0;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
-        /* Container vidéo fixe */
-        .video-container {
-            width: 400px;
-            height: 300px;
-            margin: 0 auto;
-        }
-        .video-container video {
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover;
-        }
-        </style>
-        """, unsafe_allow_html=True)
+    # Wrapper HTML pour vidéo
+    st.markdown('<div class="video-container">', unsafe_allow_html=True)
+    # Message juste au-dessus de la vidéo
+    st.markdown("""
+        <div style="text-align:center; margin-bottom:0.5vw;">
+            <p style="font-size:1.2vw; background-color:#d1ecf1; color:#0c5460; padding:6px; border-radius:5px">
+            💡 Placez-vous face à la caméra pour que le système détecte et reconnaisse votre visage.
+            </p>
+        </div>
+    """, unsafe_allow_html=True)
 
-        # Wrapper HTML pour vidéo
-        st.markdown('<div class="video-container">', unsafe_allow_html=True)
+    ctx = webrtc_streamer(
+        key="recognition",
+        mode=WebRtcMode.SENDRECV,
+        video_transformer_factory=FaceRecognitionTransformer,
+        media_stream_constraints={
+            "video": {"width": 640, "height": 280},
+            "audio": False
+        },
+        async_transform=True
+    )
 
-        ctx = webrtc_streamer(
-            key="recognition",
-            mode=WebRtcMode.SENDRECV,
-            video_transformer_factory=FaceRecognitionTransformer,
-            media_stream_constraints={
-                "video": {"width": 640, "height": 480},
-                "audio": False
-            },
-            async_transform=True
-        )
+    st.markdown('</div>', unsafe_allow_html=True)
 
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        if ctx.state.playing is None or not ctx.state.playing:
-            st.warning("⚠️ Veuillez cliquer sur Start pour activer la caméra.")
+    if ctx.state.playing is None or not ctx.state.playing:
+        st.warning("⚠️ Veuillez cliquer sur Start pour activer la caméra.")
