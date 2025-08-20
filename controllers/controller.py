@@ -2,7 +2,7 @@
 import cv2
 import face_recognition
 import numpy as np
-from models import get_all_users
+from models.models import get_all_users
 import time
 
 recent_faces = {}

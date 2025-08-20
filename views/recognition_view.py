@@ -3,7 +3,7 @@ from streamlit_webrtc import webrtc_streamer, WebRtcMode, VideoTransformerBase
 import cv2
 import numpy as np
 from PIL import ImageFont, ImageDraw, Image
-from controller import recognize_faces
+from controllers.controller import recognize_faces
 import os
 
 # ---------------------

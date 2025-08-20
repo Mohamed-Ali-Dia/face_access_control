@@ -1,5 +1,5 @@
 import streamlit as st
-from models import get_all_accounts, add_account, update_account, delete_account, get_account_by_username
+from models.models import get_all_accounts, add_account, update_account, delete_account, get_account_by_username
 
 def account_management_tab():
 

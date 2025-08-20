@@ -1,7 +1,7 @@
 # debut du fichier add_user_view.py
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
-from controller import register_user_from_file, register_user_from_frame
+from controllers.controller import register_user_from_file, register_user_from_frame
 
 def add_user_tab():
     st.markdown(

@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-from models import init_db, authenticate, create_session, get_session, delete_session
+from models.models import init_db, authenticate, create_session, get_session, delete_session
 from views.add_user_view import add_user_tab
 from views.recognition_view import recognition_tab
 from views.account_management_view import account_management_tab
