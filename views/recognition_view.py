@@ -87,22 +87,6 @@ def recognition_tab():
 
             return cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         
-
-    # CSS pour réduire les marges internes
-    st.markdown("""
-    <style>
-    /* Container vidéo fixe */
-    .video-container {
-        width: 400px;
-        height: 200px;
-        margin: 0;
-        padding : 0, 0;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-    # Wrapper HTML pour vidéo
-    st.markdown('<div class="video-container">', unsafe_allow_html=True)
     # Message juste au-dessus de la vidéo
     st.markdown("""
         <div style="text-align:center; margin-bottom:0.5vw;">
@@ -111,6 +95,22 @@ def recognition_tab():
             </p>
         </div>
     """, unsafe_allow_html=True)
+
+    # CSS pour réduire les marges internes
+    st.markdown("""
+    <style>
+    /* Container vidéo fixe */
+    .video-container {
+        width: 250px;
+        height: 75px;
+        margin: 0;
+        padding : 0, 0;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # Wrapper HTML pour vidéo
+    st.markdown('<div class="video-container">', unsafe_allow_html=True)
 
     ctx = webrtc_streamer(
         key="recognition",
